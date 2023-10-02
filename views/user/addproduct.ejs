@@ -1,0 +1,71 @@
+<%- include ../partials/header %>
+<%- include ../partials/categories-navbar %>
+
+<div class="container">
+  <!-- Flash messages -->
+  <div class="row mt-3 mb-3">
+    <div class="col-md-8 m-auto">
+      <% if (successMsg) { %>
+      <div id="success" class="alert alert-success">
+        <%= successMsg %>
+      </div>
+      <% } else { %>
+      <div id="success" class="alert alert-success d-none"></div>
+      <% } %>
+    </div>
+    <div class="col-md-8 m-auto">
+      <% if (errorMsg) { %>
+      <div id="error" class="alert alert-danger">
+        <%= errorMsg %>
+      </div>
+      <% } else { %>
+      <div id="error" class="alert alert-danger d-none"></div>
+      <% } %>
+    </div>
+  </div>
+
+  <!-- Add Product Form -->
+  <div class="row mt-4">
+    <div class="col-md-8 m-auto">
+      <h3>Add Your Ad</h3>
+      <form action="/user/addproduct?_csrf=<%=csrfToken%>" method="POST" enctype="multipart/form-data">
+        <div class="form-group">
+          <label for="productCode">Product Code:</label>
+          <input type="text" class="form-control" id="productCode" name="productCode" required>
+        </div>
+        <div class="form-group">
+          <label for="title">Title:</label>
+          <input type="text" class="form-control" id="title" name="title" required>
+        </div>
+        <div class="form-group">
+          <label for="description">Description:</label>
+          <textarea class="form-control" id="description" name="description" rows="4" required></textarea>
+        </div>
+        <div class="form-group">
+          <label for="price">Price:</label>
+          <input type="number" class="form-control" id="price" name="price" required>
+        </div>
+        <div class="form-group">
+          <label for="category">Category:</label>
+          <select class="form-control" id="category" name="category" required>
+            <% categories.forEach(category => { %>
+            <option value="<%= category._id %>"><%= category.title %></option>
+            <% }) %>
+          </select>
+        </div>
+        <div class="form-group" style="display:none;">
+          <label for="manufacturer">Manufacturer:</label>
+          <input type="text" value="none" class="form-control" id="manufacturer" name="manufacturer">
+        </div>
+        <div class="form-group">
+          <label for="image">Image:</label>
+          <input type="file" class="form-control-file" id="image" name="image" accept="image/*" required>
+        </div>
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+        <button type="submit" class="btn btn-primary">Add Book</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<%- include ../partials/footer %>
